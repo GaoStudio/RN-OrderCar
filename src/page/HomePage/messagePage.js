@@ -18,9 +18,8 @@ export default class MessagePage extends Component {
     }
     render() {
         return (
-            <View>
-
-                <Text>主页</Text>
+            <View style={{flex:1,flexDirection:'row'}}>
+                <Text>消息</Text>
             </View>
         );
     }
