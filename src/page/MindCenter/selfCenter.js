@@ -8,6 +8,7 @@ import {
     Text,
     StyleSheet,
     View,
+    Image,
 } from 'react-native';
 export default class SelfCenter extends Component {
     constructor(props) {
@@ -17,7 +18,9 @@ export default class SelfCenter extends Component {
     }
     render() {
         return (
-            <View style={Styles.container}><Text>侧滑</Text></View>
+            <View style={Styles.container}>
+                <Image style={{justifyContent:'flex-start',width:'100%',height:190}} resizeMode={Image.resizeMode.stretch} source={require("../../../res/images/navigatop.jpg")}></Image>
+            </View>
         );
     }
 }
