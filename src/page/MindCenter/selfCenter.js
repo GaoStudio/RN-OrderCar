@@ -63,7 +63,7 @@ export default class SelfCenter extends Component {
                 <TouchableHighlight  underlayColor='#d6d6d6' onPress={()=>{ }} >
                     <View style={{width:'100%',height:60,flexDirection:'row',alignItems:'center'}}>
                         <Image style={{marginLeft:15,width:22,height:22}} source={require('../../../res/images/iconmyyuyue.png')}></Image>
-                        <Text style={{marginLeft:15,fontSize:16,color:'#333'}}>我的预约</Text>
+                        <Text style={{marginLeft:15,fontSize:16,color:'#333'}}>我的预约c</Text>
                     </View>
                 </TouchableHighlight>
             </View>
