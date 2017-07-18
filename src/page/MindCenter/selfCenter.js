@@ -23,7 +23,7 @@ export default class SelfCenter extends Component {
                 <Image style={{justifyContent:'center',width:'100%',height:190}} resizeMode={Image.resizeMode.stretch} source={require("../../../res/images/navigatop.jpg")}>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                         <Image style={{height:60,width:60}} resizeMode={Image.resizeMode.stretch} source={require('../../../res/images/header.png')}></Image>
-                        <Text style={{textAlignVertical:'center',marginTop:5,fontSize:18}}>Jaye_Gao</Text>
+                        <Text onPress={()=>{this.props.navigation.navigate('login')}} style={{textAlignVertical:'center',marginTop:5,fontSize:18}}>登录/注册</Text>
                     </View>
                 </Image>
                 <TouchableHighlight  underlayColor='#f2f2f2' style={{marginTop:1,backgroundColor:'#d6d6d6'}} onPress={()=>{ }}  >

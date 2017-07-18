@@ -24,7 +24,7 @@ export default class MainPage extends Component {
     _renderItem(item){
         return(
             <View style={{paddingTop:5,paddingLeft:5,paddingRight:5}}>
-                <TouchableHighlight onPress={()=>{this.props.navigation.navigate('subscribe',{name:'刘教练'})}} underlayColor='#fff' style={{ backgroundColor:'#D6D6D6',borderWidth:1,borderColor:'#333'}}>
+                <TouchableHighlight onPress={()=>{this.props.navigation.navigate('subscribe',{name:'刘教练'})}} underlayColor='#f2f2f2' style={{ backgroundColor:'#D6D6D6',borderWidth:1,borderColor:'#333'}}>
                     <View style={{flex:1,flexDirection:'row',marginLeft:10,marginTop:8,marginBottom:8}}>
                         <Image style={{width:90,height:120}} resizeMode={Image.resizeMode.center} source={require("../../../res/images/logo.jpg")}></Image>
                             <View style={{flex:1,justifyContent:'center',flexDirection:'column',marginRight:10,marginLeft:10}}>

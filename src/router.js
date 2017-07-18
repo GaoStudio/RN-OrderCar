@@ -8,13 +8,14 @@ import MainPage from './page/HomePage/mainPage.js'
 import MessagePage from './page/HomePage/messagePage.js'
 import SubscribePage from './page/HomePage/subscribePage'
 import CategoryHeader from './compontent/categoryHeader.js'
+import LoginPage from './page/LoginRegister/loginPage.js'
 const Home = DrawerNavigator({
     mainPage: {
         screen: MainPage,
     }},{
     drawerWidth: 300,
     drawerPosition: 'left',
-    contentComponent: props => <SelfCenter />
+    contentComponent: (props) => <SelfCenter  {...props}/>
 });
 export const Main = StackNavigator({
     //项目主页
@@ -40,6 +41,16 @@ export const Main = StackNavigator({
         navigationOptions:({navigation})=>{
             return({
                 header:<CategoryHeader title={navigation.state.params.name} nav={navigation}/>
+            })
+        }
+    },
+    //登录界面
+    login:{
+        screen: LoginPage,
+        navigationOptions:({navigation})=>{
+            return({
+                header:<CategoryHeader title='登录' nav={navigation}/>
+
             })
         }
     }
