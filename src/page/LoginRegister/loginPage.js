@@ -6,9 +6,6 @@ import {Keyboard,LayoutAnimation,Platform,UIManager,View, Text, Image, StyleShee
 import Input from './../../compontent/Input.js'
 import AlertStatus from './../../compontent/AlertStatus.js'
 import Button from './../../compontent/Button.js'
-if (Platform.OS === 'android') {
-    UIManager.setLayoutAnimationEnabledExperimental(true)
-}
 export default class LoginPage extends Component {
     constructor(props) {
         super(props);
@@ -58,7 +55,7 @@ export default class LoginPage extends Component {
     }
 
     handlePressSignUp() {
-        Actions.register();
+        this.props.navigation.navigate('register');
     }
 
     handleToHome() {
@@ -112,7 +109,7 @@ export default class LoginPage extends Component {
                         />
                     </Animated.View>
                     <Animated.View style={{position: 'relative', top: this.state.animation.loginPositionTop}}>
-                        <Button style={{marginLeft:15,marginRight:15,height:40,marginTop:30,borderWidth:1,borderColor:'#d6d6d6',borderRadius:10}} title={'登  录'} onPress={ this.onSuoXiao}>
+                        <Button style={{marginLeft:15,marginRight:15,height:40,marginTop:30,borderWidth:1,borderColor:'transparent',borderRadius:10}} title={'登  录'} onPress={this.handlePressSignUp.bind(this)}>
                         </Button>
                     </Animated.View>
 
@@ -128,7 +125,7 @@ export default class LoginPage extends Component {
 const loginStyle = StyleSheet.create({
     loginContainer: {
         flex: 1,
-        backgroundColor: '#d6d6d6',
+        backgroundColor: 'transparent',
         paddingTop: 30,
     },
     formContainer: {

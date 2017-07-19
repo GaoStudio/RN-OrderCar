@@ -72,7 +72,7 @@ export default class SelfCenter extends Component {
                 <TouchableHighlight  underlayColor='#f2f2f2' style={{backgroundColor:'#d6d6d6'}} onPress={()=>{ }} >
                     <View style={{width:'100%',height:50,flexDirection:'row',alignItems:'center'}}>
                         <Image style={{marginLeft:15,width:22,height:22}} source={require('../../../res/images/iconjiaolian.png')}></Image>
-                        <Text style={{marginLeft:15,fontSize:16,color:'#333'}}>预约设置</Text>
+                        <Text style={{marginLeft:15,fontSize:16,color:'#333'}}>教练认证</Text>
                     </View>
                 </TouchableHighlight>
                 <View style={{backgroundColor:'#cdcdcd',height:1,width:'100%'}}></View>

@@ -106,6 +106,7 @@ export default class Input extends Component {
     render() {
         if(this.props.icon) return this.renderInputWithIcon();
         return this.renderLabelInputCombine();
+
     }
 }
 

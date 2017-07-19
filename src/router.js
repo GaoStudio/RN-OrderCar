@@ -9,6 +9,7 @@ import MessagePage from './page/HomePage/messagePage.js'
 import SubscribePage from './page/HomePage/subscribePage'
 import CategoryHeader from './compontent/categoryHeader.js'
 import LoginPage from './page/LoginRegister/loginPage.js'
+import RegisterPage from './page/LoginRegister/registerPage.js'
 const Home = DrawerNavigator({
     mainPage: {
         screen: MainPage,
@@ -51,6 +52,15 @@ export const Main = StackNavigator({
             return({
                 header:<CategoryHeader title='登录' nav={navigation}/>
 
+            })
+        }
+    },
+    //注册界面
+    register:{
+        screen: RegisterPage,
+        navigationOptions:({navigation})=>{
+            return({
+                header:<CategoryHeader title='注册' nav={navigation}/>
             })
         }
     }
