@@ -15,8 +15,7 @@ export default class LoginPage extends Component {
         this.state = {
             username: '',
             password: '',
-            iconWidth:100,
-            iconHeight:100,
+            iconDistance:new Animated.Value(100),
             animation: {
                 usernamePostionLeft: new Animated.Value(795),
                 passwordPositionLeft: new Animated.Value(905),
@@ -27,10 +26,9 @@ export default class LoginPage extends Component {
     }
 
     componentWillMount () {
-        this.onKuoDa = this.onKuoDa.bind(this);
-        this.onSuoXiao = this.onSuoXiao.bind(this);
-        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
-        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
     }
     componentWillUnmount () {
         this.keyboardDidShowListener.remove();
@@ -38,23 +36,17 @@ export default class LoginPage extends Component {
     }
 
     _keyboardDidShow () {
-        // Animate the update
-        LayoutAnimation.spring();
-        this.onSuoXiao;
-    }
-    onSuoXiao(){
-        this.setState({iconWidth:50});
-        this.setState({iconHeight:50});
-    }
-    onKuoDa(){
-        this.setState({iconWidth:100});
-        this.setState({iconHeight:100});
+        Animated.timing(this.state.iconDistance, {
+            toValue: 0,
+            duration: 300,
+        }).start();
     }
     _keyboardDidHide () {
-        LayoutAnimation.spring();
-        this.onKuoDa;
+        Animated.timing(this.state.iconDistance, {
+            toValue: 100,
+            duration: 300,
+        }).start();
     }
-
     handleChangeInput(stateName, text) {
         this.setState({
             [stateName]: text
@@ -100,7 +92,7 @@ export default class LoginPage extends Component {
         return <View style={{flex:1}}>
             <View style={loginStyle.loginContainer}>
                 <View style={{alignItems:'center'}}>
-                    <Image source={require('../../../res/images/icon_car.png')} style={{width:this.state.iconWidth,height:this.state.iconHeight}} resizeMode="cover"/>
+                    <Animated.Image source={require('../../../res/images/icon_car.png')} style={{width:this.state.iconDistance,height:this.state.iconDistance}} resizeMode="cover"/>
                 </View>
                 <View style={loginStyle.formContainer}>
                     <Animated.View style={{position: 'relative', left: this.state.animation.usernamePostionLeft}}>
@@ -120,7 +112,7 @@ export default class LoginPage extends Component {
                         />
                     </Animated.View>
                     <Animated.View style={{position: 'relative', top: this.state.animation.loginPositionTop}}>
-                        <Button style={{marginLeft:15,marginRight:15,height:40,marginTop:30,borderWidth:1,borderColor:'#d6d6d6',borderRadius:10}} title={'Sign in'} onPress={this.handePressSignIn.bind(this)}>
+                        <Button style={{marginLeft:15,marginRight:15,height:40,marginTop:30,borderWidth:1,borderColor:'#d6d6d6',borderRadius:10}} title={'登  录'} onPress={ this.onSuoXiao}>
                         </Button>
                     </Animated.View>
 
@@ -130,11 +122,9 @@ export default class LoginPage extends Component {
                 <AlertStatus textHelper="没有账号" textAction="去注册"
                              onPressAction={this.handlePressSignUp.bind(this)}/>
             </Animated.View>
-
         </View>
     }
 }
-
 const loginStyle = StyleSheet.create({
     loginContainer: {
         flex: 1,
