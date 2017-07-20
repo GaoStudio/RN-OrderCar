@@ -10,6 +10,7 @@ import SubscribePage from './page/HomePage/subscribePage'
 import CategoryHeader from './compontent/categoryHeader.js'
 import LoginPage from './page/LoginRegister/loginPage.js'
 import RegisterPage from './page/LoginRegister/registerPage.js'
+import ApplyCoachPage from './page/MindCenter/applyCoachPage.js'
 const Home = DrawerNavigator({
     mainPage: {
         screen: MainPage,
@@ -61,6 +62,15 @@ export const Main = StackNavigator({
         navigationOptions:({navigation})=>{
             return({
                 header:<CategoryHeader title='注册' nav={navigation}/>
+            })
+        }
+    },
+    //教练认证
+    applyCoach:{
+        screen: ApplyCoachPage,
+        navigationOptions:({navigation})=>{
+            return({
+                header:<CategoryHeader title='申请教练' nav={navigation}/>
             })
         }
     }
