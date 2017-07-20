@@ -39,12 +39,12 @@ export default class CategoryHeader extends Component {
         return (
             <View style={headerStyles.container}>
                 {this.props.type==='home'?this._openDrawer():this._backUp()}
-                <View style={{ flex: 1}}>
+                <View style={{ flex: 1,marginRight:50}}>
                     <Text allowFontScaling={false} numberOfLines={1} style={headerStyles.text}>{this.props.title}</Text>
                 </View>
-                <TouchableHighlight underlayColor='#fff' onPress={() => { fds } } style={headerStyles.categoryBox}>
+           {/*     <TouchableHighlight underlayColor='#fff' onPress={() => { fds } } style={headerStyles.categoryBox}>
                     <Image source={require('../../res/images/back.png')} style={headerStyles.back} />
-                </TouchableHighlight>
+                </TouchableHighlight>*/}
             </View>
         );
     }

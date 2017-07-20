@@ -70,7 +70,7 @@ export const Main = StackNavigator({
         screen: ApplyCoachPage,
         navigationOptions:({navigation})=>{
             return({
-                header:<CategoryHeader title='申请教练' nav={navigation}/>
+                header:<CategoryHeader title='认证教练' nav={navigation}/>
             })
         }
     }
