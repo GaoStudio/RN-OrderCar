@@ -2,18 +2,14 @@ package com.ordercar;
 
 import android.app.Application;
 
+import com.beefe.picker.PickerViewPackage;
 import com.facebook.react.ReactApplication;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
-import com.cboy.rn.splashscreen.SplashScreenReactPackage;
-import com.beefe.picker.PickerViewPackage;
-import com.cboy.rn.splashscreen.SplashScreenReactPackage;
-import com.cboy.rn.splashscreen.SplashScreenReactPackage;
-import com.beefe.picker.PickerViewPackage;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,11 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new PickerPackage(),
             new SplashScreenReactPackage(),
-            new PickerViewPackage(),
-            new SplashScreenReactPackage(),
-            new SplashScreenReactPackage(),
-            new PickerViewPackage(),
-            new SplashScreenReactPackage()
+            new PickerViewPackage()
       );
     }
   };
