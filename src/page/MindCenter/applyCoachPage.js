@@ -26,7 +26,11 @@ export default class ApplyCoachPage extends Component {
                         <Image style={{margin:10,width:90,height:120}} resizeMode={Image.resizeMode.center} source={require("../../../res/images/logo.jpg")}></Image>
                         <View style={{width:1,backgroundColor:'#333333'}}></View>
                         <View style={{flex:1}}>
-                            <TextInput underlineColorAndroid="transparent" style={{padding:0,}}></TextInput>
+                            <TextInput  placeholder ="姓名" underlineColorAndroid="transparent" style={{padding:0,fontSize:16,margin:5}}></TextInput>
+                            <View style={{height:1,backgroundColor:'#333333'}}></View>
+                            <TextInput  placeholder ="姓名" underlineColorAndroid="transparent" style={{padding:0,fontSize:16,margin:5}}></TextInput>
+                            <View style={{height:1,backgroundColor:'#333333'}}></View>
+                            <TextInput  placeholder ="姓名" underlineColorAndroid="transparent" style={{padding:0,fontSize:16,margin:5}}></TextInput>
                         </View>
                     </View>
                 </View>
