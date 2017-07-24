@@ -11,6 +11,7 @@ import CategoryHeader from './compontent/categoryHeader.js'
 import LoginPage from './page/LoginRegister/loginPage.js'
 import RegisterPage from './page/LoginRegister/registerPage.js'
 import ApplyCoachPage from './page/MindCenter/applyCoachPage.js'
+import {Student} from './page/CoachPage/coachStudentPage.js'
 const Home = DrawerNavigator({
     mainPage: {
         screen: MainPage,
@@ -73,5 +74,14 @@ export const Main = StackNavigator({
                 header:<CategoryHeader title='认证教练' nav={navigation}/>
             })
         }
+    },
+    //教练认证
+    student:{
+    screen: Student,
+        navigationOptions:({navigation})=>{
+        return({
+            header:<CategoryHeader title='我的学生' nav={navigation}/>
+        })
     }
+}
 });

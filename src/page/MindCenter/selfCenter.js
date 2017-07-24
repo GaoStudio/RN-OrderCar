@@ -62,7 +62,7 @@ export default class SelfCenter extends Component {
                     </TouchableHighlight>
                 </View>
                 <View style={{backgroundColor:'#cdcdcd',height:5,width:'100%'}}></View>
-                <TouchableHighlight  underlayColor='#f2f2f2' style={{backgroundColor:'#d6d6d6'}} onPress={()=>{ }} >
+                <TouchableHighlight  underlayColor='#f2f2f2' style={{backgroundColor:'#d6d6d6'}} onPress={()=>{this.props.navigation.navigate('student') }} >
                     <View style={{width:'100%',height:50,flexDirection:'row',alignItems:'center'}}>
                         <Image style={{marginLeft:15,width:22,height:22}} source={require('../../../res/images/iconjiaolian.png')}></Image>
                         <Text style={{marginLeft:15,fontSize:16,color:'#333'}}>我的教练</Text>
