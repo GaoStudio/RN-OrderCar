@@ -12,6 +12,7 @@ import LoginPage from './page/LoginRegister/loginPage.js'
 import RegisterPage from './page/LoginRegister/registerPage.js'
 import ApplyCoachPage from './page/MindCenter/applyCoachPage.js'
 import {Student} from './page/CoachPage/coachStudentPage.js'
+import SetTimeOrderPage from './page/CoachPage/setTimeOrderPage.js'
 const Home = DrawerNavigator({
     mainPage: {
         screen: MainPage,
@@ -77,11 +78,20 @@ export const Main = StackNavigator({
     },
     //教练认证
     student:{
-    screen: Student,
+        screen: Student,
         navigationOptions:({navigation})=>{
         return({
             header:<CategoryHeader title='我的学生' nav={navigation}/>
         })
+        },
+    },
+    //教练认证
+    setTimeOrder:{
+        screen: SetTimeOrderPage,
+        navigationOptions:({navigation})=>{
+            return({
+                header:<CategoryHeader title='预约设置' nav={navigation}/>
+            })
+        },
     }
-}
 });

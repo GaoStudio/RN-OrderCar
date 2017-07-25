@@ -129,5 +129,22 @@ export const Student = TabNavigator({
         }
     }
 },{
+    tabBarOptions:{
+        activeBackgroundColor:'#ff0000',
+        inactiveBackgroundColor:'#D6D6D6',
+        labelStyle: {
+            fontSize: 14,
+            color:'#333333'
+        },
+        tabStyle: {
+            height: 45,
+            backgroundColor: '#D6D6D6',
+            justifyContent:'center',
+            alignContent:'center',
+        },
+        style: {
+            backgroundColor: '#D6D6D6',
+        },
+    },
     swipeEnabled:false,
 })
