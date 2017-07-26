@@ -85,7 +85,7 @@ export const Main = StackNavigator({
         })
         },
     },
-    //教练认证
+    //预约设置
     setTimeOrder:{
         screen: SetTimeOrderPage,
         navigationOptions:({navigation})=>{
