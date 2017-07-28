@@ -12,12 +12,12 @@ import {
     Animated,
     TouchableOpacity,
     TextInput,
-    Switch,
     Easing,
     ScrollView,
     Image,
 } from 'react-native';
 import Picker from 'react-native-picker';
+import Switch from './../../compontent/Switch.js'
 import {ScreenHeight} from './../../utils/ScreenUtils.js'
 import { Calendar } from 'react-native-calendars';
 /*
@@ -38,7 +38,7 @@ export default class SetTimeOrderPage extends Component {
              showCalendar:false,
              //formPositionTop: -360,
             trueSwitchIsOn: true,
-             formPositionTop: new Animated.Value(-360),
+             formPositionTop: new Animated.Value(-600),
             startDate:{
                  Y:myDate.getFullYear(),
                 M:myDate.getMonth()+1,
@@ -185,6 +185,15 @@ export default class SetTimeOrderPage extends Component {
         }
     }
     renderCalendar(){
+        let minTime=this.state.startDate.Y+'-';
+        if(this.state.startDate.M<10){
+            minTime=minTime+'0';
+        }
+        minTime= minTime+this.state.startDate.M+'-';
+        if(this.state.startDate.D<10){
+            minTime=minTime+'0';
+        }
+        minTime= minTime+this.state.startDate.D;
         let maxTime=this.state.endDate.Y+'-';
         if(this.state.endDate.M<10){
             maxTime=maxTime+'0';
@@ -195,13 +204,13 @@ export default class SetTimeOrderPage extends Component {
         }
         maxTime= maxTime+this.state.endDate.D;
         return(
-            <View style={{position:'absolute',top:50,height:ScreenHeight-120,width:'100%',backgroundColor:'#00000088'}}>
+            <View style={{position:'absolute',top:50,height:ScreenHeight-120,width:'100%',backgroundColor:'#ffffff88'}}>
                 <Animated.View style={{position:'absolute',top:this.state.formPositionTop,width:'100%',height:'100%'}}>
                     <View style={{width:'100%',height:600}}>
                         <Calendar
-                            current={Date()}
+                            current={myDate}
                             // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-                            minDate={Date()}
+                            minDate={minTime}
                             // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
                             maxDate={maxTime}
                             // Handler which gets executed on day press. Default = undefined
@@ -217,7 +226,7 @@ export default class SetTimeOrderPage extends Component {
                             // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
                         />
                     </View>
-                    <TouchableOpacity onPress={()=>{ this.closeCalendar()}} style={{flex:1}} >
+                    <TouchableOpacity onPress={()=>{ this.closeCalendar()}} style={{flex:1,backgroundColor:'#ff0'}} >
                          <View ></View>
                     </TouchableOpacity>
                 </Animated.View>
@@ -247,8 +256,7 @@ export default class SetTimeOrderPage extends Component {
                 </TouchableOpacity>
             </View>
             <View>
-                <Switch style={{width:50}} onValueChange={(value) => this.setState({trueSwitchIsOn: false})} disabled={false}
-                        value={this.state.trueSwitchIsOn}></Switch>
+                <Switch height={15} width={30}></Switch>
             </View>
             {this.state.showCalendar&&this.renderCalendar()}
         </View>
