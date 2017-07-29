@@ -13,6 +13,7 @@ import RegisterPage from './page/LoginRegister/registerPage.js'
 import ApplyCoachPage from './page/MindCenter/applyCoachPage.js'
 import {Student} from './page/CoachPage/coachStudentPage.js'
 import SetTimeOrderPage from './page/CoachPage/setTimeOrderPage.js'
+import TimeOrderSettingPage from './page/CoachPage/timeOrderSettingPage.js'
 const Home = DrawerNavigator({
     mainPage: {
         screen: MainPage,
@@ -88,10 +89,14 @@ export const Main = StackNavigator({
     //预约设置
     setTimeOrder:{
         screen: SetTimeOrderPage,
+    },
+
+    timeOrderSetting:{
+        screen: TimeOrderSettingPage,
         navigationOptions:({navigation})=>{
             return({
-                header:<CategoryHeader title='预约设置' nav={navigation}/>
+                header:<CategoryHeader title='基本设置' nav={navigation}/>
             })
         },
-    }
+    },
 });

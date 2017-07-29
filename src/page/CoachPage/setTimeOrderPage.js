@@ -10,6 +10,7 @@ import {
     TouchableHighlight,
     View,
     Animated,
+    FlatList,
     TouchableOpacity,
     TextInput,
     Easing,
@@ -20,16 +21,15 @@ import Picker from 'react-native-picker';
 import Switch from './../../compontent/Switch.js'
 import {ScreenHeight} from './../../utils/ScreenUtils.js'
 import { Calendar } from 'react-native-calendars';
-/*
-LocaleConfig.locales['fr'] = {
-    monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-    monthNamesShort: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-    dayNames: ['周日','周一','周二','周三','周四','周五','周六'],
-    dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六']
-};
-LocaleConfig.defaultLocale = 'fr';*/
+import CategoryHeader from './../../compontent/categoryHeader.js'
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 var myDate = new Date();
 export default class SetTimeOrderPage extends Component {
+   static navigationOptions({navigation}){
+        return({
+            header:<CategoryHeader rightPress="timeOrderSetting" rightImage={require('./../../../res/images/ordersetting.png')} right={true} title='预约设置' nav={navigation}/>
+        })
+    }
     constructor(props){
         super(props);
         this.date = [];
@@ -48,7 +48,13 @@ export default class SetTimeOrderPage extends Component {
                 Y:myDate.getFullYear(),
                 M:myDate.getMonth()+1,
                 D:myDate.getDate(),
-            }
+            },
+            types3: [{label: '科目二', value: 0}, {label: '科目三', value: 1}],
+            value3: 0,
+            value3Index: 0,
+            types1: [{label: '科目二', value: 0}, {label: '科目三', value: 1}],
+            value1: 0,
+            value1Index: 0,
         }
         for(let i=myDate.getFullYear();i<2025;i++){
             let month = [];
@@ -154,6 +160,7 @@ export default class SetTimeOrderPage extends Component {
         });
         Picker.show();
     }
+
     startCalendar(){
         Animated.timing(this.state.formPositionTop, {
             toValue: 0,
@@ -219,9 +226,19 @@ export default class SetTimeOrderPage extends Component {
                             monthFormat={'yyyy/MM'}
                             // Handler which gets executed when visible month changes in calendar. Default = undefined
                             onMonthChange={(month) => {console.log('month changed', month)}}
+                            markingType={'interactive'}
                             theme={{
                                 calendarBackground: '#ffffff00',
                             }}
+                            markedDates={{
+                                '2017-07-08': [{textColor: '#666'}],
+                                '2017-07-09': [{textColor: '#666'}],
+                                '2017-07-14': [{startingDay: true, color: 'blue'}, {endingDay: true, color: 'blue'}],
+                                '2017-07-21': [{startingDay: true, color: 'blue'}],
+                                '2017-07-22': [{endingDay: true, color: 'gray'}],
+                                '2017-07-24': [{startingDay: true, color: 'gray'}],
+                                '2017-07-25': [{color: 'gray'}],
+                                '2017-07-26': [{endingDay: true, color: 'gray'}]}}
                             // Hide month navigation arrows. Default = false
                             // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
                         />
@@ -234,8 +251,105 @@ export default class SetTimeOrderPage extends Component {
             </View>
         )
     }
-    render(){
+    _renderSettingItem(){
+        let radio_props = [
+            {label: '科目三', value: 0 },
+            {label: '科目四', value: 1 }
+        ];
+        return(
+            <View style={{paddingTop:5,paddingLeft:5,paddingRight:5}}>
+                <TouchableHighlight underlayColor='#f2f2f2' style={{ backgroundColor:'#D6D6D6',borderWidth:1,borderColor:'#333'}}>
+                    <View style={{flex:1,flexDirection:'row'}}>
+                        <View style={{margin:10,flex:1}}>
+                            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                                <View style={{flexDirection:'row'}}>
+                                    <Text style={{fontSize:16}}>时    间</Text>
+                                    <Text style={{fontWeight:'bold'}}> : </Text>
+                                    <Text style={{textAlign:'left',color:'#D33A31',fontSize:16}}>
+                                        15:20~15:45
+                                    </Text>
+                                </View>
+                                <View>
+                                    <Switch height={15} width={30}></Switch>
+                                </View>
+                            </View>
+                            <View style={{flexDirection:'row'}}>
+                                <Text style={{fontSize:16}}>科    目</Text>
+                                <Text style={{fontWeight:'bold'}}> : </Text>
+                                <RadioForm
+                                    ref="radioForm"
+                                    radio_props={radio_props}
+                                    initial={0}
+                                    formHorizontal={true}
+                                    labelHorizontal={true}
+                                    buttonColor={'#2196f3'}
+                                    buttonSize={10}
 
+                                    labelWrapStyle={{marginLeft:0}}
+                                    labelColor={'#000'}
+                                    animation={true}
+                                    onPress={(value, index) => {
+
+                                  }}
+                                />
+                             {/*   <RadioForm formHorizontal={true} animation={true} >
+                                    {this.state.types3.map((obj, i) => {
+                                        var onPress = (value, index) => {
+                                            this.setState({
+                                                value3: value,
+                                                value3Index: index
+                                            })
+                                        }
+                                        return (
+                                            <RadioButton labelHorizontal={true} key={i} >
+                                                /!*  You can set RadioButtonLabel before RadioButtonInput *!/
+                                                <RadioButtonInput
+                                                    obj={obj}
+                                                    index={i}
+                                                    isSelected={this.state.value3Index === i}
+                                                    onPress={onPress}
+                                                    buttonInnerColor={'#f39c12'}
+                                                    buttonOuterColor={this.state.value3Index === i ? '#2196f3' : '#000'}
+                                                    buttonSize={10}
+                                                    buttonStyle={{}}
+                                                    buttonWrapStyle={{marginLeft: 10}}
+                                                />
+                                                <RadioButtonLabel
+                                                    obj={obj}
+                                                    index={i}
+                                                    onPress={onPress}
+                                                    labelStyle={{fontWeight: 'bold', color: '#2ecc71'}}
+                                                    labelWrapStyle={{}}
+                                                />
+                                            </RadioButton>
+                                        )
+                                    })}
+                                </RadioForm>*/}
+                            </View>
+                            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                                <View style={{flexDirection:'row'}}>
+                                    <Text style={{fontSize:16}}>可预约</Text>
+                                    <Text style={{fontWeight:'bold'}}> : </Text>
+                                    <Text style={{textAlign:'left',fontSize:16}}>
+                                        1人
+                                    </Text>
+
+                                </View>
+                                <View style={{flexDirection:'row'}}>
+                                    <Text style={{fontSize:16}}>已预约</Text>
+                                    <Text style={{fontWeight:'bold'}}> : </Text>
+                                    <Text style={{textAlign:'left',fontSize:16}}>
+                                        0人
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </TouchableHighlight>
+            </View>
+        )
+    }
+    render(){
         return(
         <View style={{flex:1,backgroundColor:'#fff'}}>
             <View style={{height:50,backgroundColor:'#dedede',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
@@ -255,9 +369,11 @@ export default class SetTimeOrderPage extends Component {
                     <Image style={{marginLeft:10,marginRight:10,width:30,height:30}} source={require('./../../../res/images/date.png')}></Image>
                 </TouchableOpacity>
             </View>
-            <View>
-                <Switch height={15} width={30}></Switch>
-            </View>
+            <FlatList
+                data={['a', 'b','a', 'b','a', 'b','a', 'b','a', 'b','a', 'b']}
+                showsVerticalScrollIndicator={false}
+                renderItem={({item}) => this._renderSettingItem(item)}
+            />
             {this.state.showCalendar&&this.renderCalendar()}
         </View>
         )
