@@ -14,6 +14,7 @@ import ApplyCoachPage from './page/MindCenter/applyCoachPage.js'
 import {Student} from './page/CoachPage/coachStudentPage.js'
 import SetTimeOrderPage from './page/CoachPage/setTimeOrderPage.js'
 import TimeOrderSettingPage from './page/CoachPage/timeOrderSettingPage.js'
+import {StudentOrderPage} from './page/CoachPage/studentOrderPage.js'
 const Home = DrawerNavigator({
     mainPage: {
         screen: MainPage,
@@ -82,7 +83,7 @@ export const Main = StackNavigator({
         screen: Student,
         navigationOptions:({navigation})=>{
         return({
-            header:<CategoryHeader title='我的学生' nav={navigation}/>
+            header:<CategoryHeader rightPress="timeOrderSetting" rightImage={require('./../res/images/black.png')} right={true} title='我的学生' nav={navigation}/>
         })
         },
     },
@@ -90,7 +91,6 @@ export const Main = StackNavigator({
     setTimeOrder:{
         screen: SetTimeOrderPage,
     },
-
     timeOrderSetting:{
         screen: TimeOrderSettingPage,
         navigationOptions:({navigation})=>{
@@ -99,4 +99,12 @@ export const Main = StackNavigator({
             })
         },
     },
+    studentOrderPage:{
+        screen: StudentOrderPage,
+        navigationOptions:({navigation})=>{
+            return({
+                header:<CategoryHeader title='预约' nav={navigation}/>
+            })
+        },
+    }
 });

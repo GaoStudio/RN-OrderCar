@@ -33,7 +33,10 @@ export default class SetTimeOrderPage extends Component {
     constructor(props){
         super(props);
         this.date = [];
-
+        this.peopledata = [];
+        for(var i=1;i<10;i++){
+            this.peopledata.push(i);
+        }
         this.state = {
              showCalendar:false,
              //formPositionTop: -360,
@@ -211,7 +214,7 @@ export default class SetTimeOrderPage extends Component {
         }
         maxTime= maxTime+this.state.endDate.D;
         return(
-            <View style={{position:'absolute',top:50,height:ScreenHeight-120,width:'100%',backgroundColor:'#ffffff88'}}>
+            <View style={{position:'absolute',top:50,height:ScreenHeight-120,width:'100%',backgroundColor:'#ffffff'}}>
                 <Animated.View style={{position:'absolute',top:this.state.formPositionTop,width:'100%',height:'100%'}}>
                     <View style={{width:'100%',height:600}}>
                         <Calendar
@@ -251,6 +254,28 @@ export default class SetTimeOrderPage extends Component {
             </View>
         )
     }
+    selectPeople(){
+        Picker.init({
+            pickerData: this.peopledata,
+            selectedValue: [1],
+            pickerConfirmBtnText:'确认',
+            pickerCancelBtnText:'取消',
+            pickerConfirmBtnColor:[211,58,49,1],
+            pickerCancelBtnColor:[211,58,49,1],
+            pickerFontSize:20,
+            pickerTitleText:'可约人数',
+            onPickerConfirm: data => {
+                console.log(data);
+            },
+            onPickerCancel: data => {
+                console.log(data);
+            },
+            onPickerSelect: data => {
+                console.log(data);
+            }
+        });
+        Picker.show();
+    }
     _renderSettingItem(){
         let radio_props = [
             {label: '科目三', value: 0 },
@@ -261,7 +286,7 @@ export default class SetTimeOrderPage extends Component {
                 <TouchableHighlight underlayColor='#f2f2f2' style={{ backgroundColor:'#D6D6D6',borderWidth:1,borderColor:'#333'}}>
                     <View style={{flex:1,flexDirection:'row'}}>
                         <View style={{margin:10,flex:1}}>
-                            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                            <View style={{alignItems:'center',flexDirection:'row',justifyContent:'space-between'}}>
                                 <View style={{flexDirection:'row'}}>
                                     <Text style={{fontSize:16}}>时    间</Text>
                                     <Text style={{fontWeight:'bold'}}> : </Text>
@@ -270,78 +295,44 @@ export default class SetTimeOrderPage extends Component {
                                     </Text>
                                 </View>
                                 <View>
-                                    <Switch height={15} width={30}></Switch>
+                                    <Switch backgroundInactive="#666666" circleColorInactive="#ffffff" circleColorActive="#ffffff" backgroundActive="#D33A31" height={18} width={35}></Switch>
                                 </View>
                             </View>
-                            <View style={{flexDirection:'row'}}>
+                            <View style={{alignItems:'center',flex:1,flexDirection:'row',marginTop:5}}>
                                 <Text style={{fontSize:16}}>科    目</Text>
                                 <Text style={{fontWeight:'bold'}}> : </Text>
-                                <RadioForm
-                                    ref="radioForm"
-                                    radio_props={radio_props}
-                                    initial={0}
-                                    formHorizontal={true}
-                                    labelHorizontal={true}
-                                    buttonColor={'#2196f3'}
-                                    buttonSize={10}
+                                <View style={{justifyContent:'center'}}>
+                                    <RadioForm
+                                        ref="radioForm"
+                                        radio_props={radio_props}
+                                        initial={0}
+                                        formHorizontal={true}
+                                        labelHorizontal={true}
+                                        buttonColor={'#D33A31'}
+                                        buttonSize={10}
+                                        buttonOuterSize={18}
+                                        borderWidth={1}
+                                        style={{marginTop:6}}
+                                        labelWrapStyle={{marginLeft:0}}
+                                        labelColor={'#000'}
+                                        animation={true}
+                                        onPress={(value, index) => {
 
-                                    labelWrapStyle={{marginLeft:0}}
-                                    labelColor={'#000'}
-                                    animation={true}
-                                    onPress={(value, index) => {
-
-                                  }}
-                                />
-                             {/*   <RadioForm formHorizontal={true} animation={true} >
-                                    {this.state.types3.map((obj, i) => {
-                                        var onPress = (value, index) => {
-                                            this.setState({
-                                                value3: value,
-                                                value3Index: index
-                                            })
-                                        }
-                                        return (
-                                            <RadioButton labelHorizontal={true} key={i} >
-                                                /!*  You can set RadioButtonLabel before RadioButtonInput *!/
-                                                <RadioButtonInput
-                                                    obj={obj}
-                                                    index={i}
-                                                    isSelected={this.state.value3Index === i}
-                                                    onPress={onPress}
-                                                    buttonInnerColor={'#f39c12'}
-                                                    buttonOuterColor={this.state.value3Index === i ? '#2196f3' : '#000'}
-                                                    buttonSize={10}
-                                                    buttonStyle={{}}
-                                                    buttonWrapStyle={{marginLeft: 10}}
-                                                />
-                                                <RadioButtonLabel
-                                                    obj={obj}
-                                                    index={i}
-                                                    onPress={onPress}
-                                                    labelStyle={{fontWeight: 'bold', color: '#2ecc71'}}
-                                                    labelWrapStyle={{}}
-                                                />
-                                            </RadioButton>
-                                        )
-                                    })}
-                                </RadioForm>*/}
+                                      }}
+                                    />
+                                </View>
                             </View>
-                            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                                <View style={{flexDirection:'row'}}>
-                                    <Text style={{fontSize:16}}>可预约</Text>
-                                    <Text style={{fontWeight:'bold'}}> : </Text>
+                            <View style={{flex:1,marginTop:3,flexDirection:'row'}}>
+                                <Text style={{fontSize:16}}>可预约</Text>
+                                <Text style={{fontWeight:'bold'}}> : </Text>
+                                <TouchableHighlight underlayColor={'#d6d6d6'} onPress={()=>{this.selectPeople()}} style={{flex:1,backgroundColor:'#ccc'}}>
+                                <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                                     <Text style={{textAlign:'left',fontSize:16}}>
-                                        1人
+                                         1人
                                     </Text>
-
+                                    <Image resizeMode={Image.resizeMode.contain} style={{marginRight:3,height:20,width:30}} source={require('./../../../res/images/peoplemore.png')}></Image>
                                 </View>
-                                <View style={{flexDirection:'row'}}>
-                                    <Text style={{fontSize:16}}>已预约</Text>
-                                    <Text style={{fontWeight:'bold'}}> : </Text>
-                                    <Text style={{textAlign:'left',fontSize:16}}>
-                                        0人
-                                    </Text>
-                                </View>
+                                </TouchableHighlight>
                             </View>
                         </View>
                     </View>
@@ -369,11 +360,20 @@ export default class SetTimeOrderPage extends Component {
                     <Image style={{marginLeft:10,marginRight:10,width:30,height:30}} source={require('./../../../res/images/date.png')}></Image>
                 </TouchableOpacity>
             </View>
-            <FlatList
-                data={['a', 'b','a', 'b','a', 'b','a', 'b','a', 'b','a', 'b']}
-                showsVerticalScrollIndicator={false}
-                renderItem={({item}) => this._renderSettingItem(item)}
-            />
+            <ScrollView>
+                <FlatList
+                    data={['a', 'b','a', 'b','a', 'b','a', 'b','a', 'b','a', 'b']}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={({item}) => this._renderSettingItem(item)}
+                />
+                <TouchableHighlight underlayColor={'#d6d6d6'} onPress={()=>{}} style={{margin:10,backgroundColor:'#999999'}}>
+                    <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <Text  style={{fontSize:18,margin:10}}>
+                            确认
+                        </Text>
+                    </View>
+                </TouchableHighlight>
+            </ScrollView>
             {this.state.showCalendar&&this.renderCalendar()}
         </View>
         )

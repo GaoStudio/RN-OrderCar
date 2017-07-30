@@ -180,7 +180,7 @@ export default class extends Component {
           borderRadius: height / 2,
           backgroundColor: interpolatedBackgroundColor }]}>
               <Animated.View style={{
-          backgroundColor: "#ff0",
+          backgroundColor: interpolatedCircleColor,
           width: handlerAnimation,
           height: this.handlerSize,
           borderRadius: height / 2,
