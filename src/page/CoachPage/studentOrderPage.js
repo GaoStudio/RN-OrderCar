@@ -10,7 +10,7 @@ import {TabNavigator} from 'react-navigation'
     render(){
         return(
             <View>
-                <Text>基本设置</Text>
+                <Text>全部订单</Text>
             </View>
         )
     }
