@@ -10,35 +10,38 @@ import {
     TouchableHighlight,
     View,
     Animated,
+    FlatList,
     TouchableOpacity,
     TextInput,
-    Switch,
     Easing,
     ScrollView,
     Image,
 } from 'react-native';
 import Picker from 'react-native-picker';
+import Switch from './../../compontent/Switch.js'
 import {ScreenHeight} from './../../utils/ScreenUtils.js'
 import { Calendar } from 'react-native-calendars';
-/*
-LocaleConfig.locales['fr'] = {
-    monthNames: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-    monthNamesShort: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-    dayNames: ['周日','周一','周二','周三','周四','周五','周六'],
-    dayNamesShort: ['周日','周一','周二','周三','周四','周五','周六']
-};
-LocaleConfig.defaultLocale = 'fr';*/
+import CategoryHeader from './../../compontent/categoryHeader.js'
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 var myDate = new Date();
 export default class SetTimeOrderPage extends Component {
+   static navigationOptions({navigation}){
+        return({
+            header:<CategoryHeader rightPress="timeOrderSetting" rightImage={require('./../../../res/images/ordersetting.png')} right={true} title='预约设置' nav={navigation}/>
+        })
+    }
     constructor(props){
         super(props);
         this.date = [];
-
+        this.peopledata = [];
+        for(var i=1;i<10;i++){
+            this.peopledata.push(i);
+        }
         this.state = {
              showCalendar:false,
              //formPositionTop: -360,
             trueSwitchIsOn: true,
-             formPositionTop: new Animated.Value(-360),
+             formPositionTop: new Animated.Value(-600),
             startDate:{
                  Y:myDate.getFullYear(),
                 M:myDate.getMonth()+1,
@@ -48,7 +51,13 @@ export default class SetTimeOrderPage extends Component {
                 Y:myDate.getFullYear(),
                 M:myDate.getMonth()+1,
                 D:myDate.getDate(),
-            }
+            },
+            types3: [{label: '科目二', value: 0}, {label: '科目三', value: 1}],
+            value3: 0,
+            value3Index: 0,
+            types1: [{label: '科目二', value: 0}, {label: '科目三', value: 1}],
+            value1: 0,
+            value1Index: 0,
         }
         for(let i=myDate.getFullYear();i<2025;i++){
             let month = [];
@@ -154,6 +163,7 @@ export default class SetTimeOrderPage extends Component {
         });
         Picker.show();
     }
+
     startCalendar(){
         Animated.timing(this.state.formPositionTop, {
             toValue: 0,
@@ -185,6 +195,15 @@ export default class SetTimeOrderPage extends Component {
         }
     }
     renderCalendar(){
+        let minTime=this.state.startDate.Y+'-';
+        if(this.state.startDate.M<10){
+            minTime=minTime+'0';
+        }
+        minTime= minTime+this.state.startDate.M+'-';
+        if(this.state.startDate.D<10){
+            minTime=minTime+'0';
+        }
+        minTime= minTime+this.state.startDate.D;
         let maxTime=this.state.endDate.Y+'-';
         if(this.state.endDate.M<10){
             maxTime=maxTime+'0';
@@ -195,13 +214,13 @@ export default class SetTimeOrderPage extends Component {
         }
         maxTime= maxTime+this.state.endDate.D;
         return(
-            <View style={{position:'absolute',top:50,height:ScreenHeight-120,width:'100%',backgroundColor:'#00000088'}}>
+            <View style={{position:'absolute',top:50,height:ScreenHeight-120,width:'100%',backgroundColor:'#ffffff'}}>
                 <Animated.View style={{position:'absolute',top:this.state.formPositionTop,width:'100%',height:'100%'}}>
                     <View style={{width:'100%',height:600}}>
                         <Calendar
-                            current={Date()}
+                            current={myDate}
                             // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-                            minDate={Date()}
+                            minDate={minTime}
                             // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
                             maxDate={maxTime}
                             // Handler which gets executed on day press. Default = undefined
@@ -210,14 +229,24 @@ export default class SetTimeOrderPage extends Component {
                             monthFormat={'yyyy/MM'}
                             // Handler which gets executed when visible month changes in calendar. Default = undefined
                             onMonthChange={(month) => {console.log('month changed', month)}}
+                            markingType={'interactive'}
                             theme={{
                                 calendarBackground: '#ffffff00',
                             }}
+                            markedDates={{
+                                '2017-07-08': [{textColor: '#666'}],
+                                '2017-07-09': [{textColor: '#666'}],
+                                '2017-07-14': [{startingDay: true, color: 'blue'}, {endingDay: true, color: 'blue'}],
+                                '2017-07-21': [{startingDay: true, color: 'blue'}],
+                                '2017-07-22': [{endingDay: true, color: 'gray'}],
+                                '2017-07-24': [{startingDay: true, color: 'gray'}],
+                                '2017-07-25': [{color: 'gray'}],
+                                '2017-07-26': [{endingDay: true, color: 'gray'}]}}
                             // Hide month navigation arrows. Default = false
                             // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
                         />
                     </View>
-                    <TouchableOpacity onPress={()=>{ this.closeCalendar()}} style={{flex:1}} >
+                    <TouchableOpacity onPress={()=>{ this.closeCalendar()}} style={{flex:1,backgroundColor:'#ff0'}} >
                          <View ></View>
                     </TouchableOpacity>
                 </Animated.View>
@@ -225,8 +254,93 @@ export default class SetTimeOrderPage extends Component {
             </View>
         )
     }
-    render(){
+    selectPeople(){
+        Picker.init({
+            pickerData: this.peopledata,
+            selectedValue: [1],
+            pickerConfirmBtnText:'确认',
+            pickerCancelBtnText:'取消',
+            pickerConfirmBtnColor:[211,58,49,1],
+            pickerCancelBtnColor:[211,58,49,1],
+            pickerFontSize:20,
+            pickerTitleText:'可约人数',
+            onPickerConfirm: data => {
+                console.log(data);
+            },
+            onPickerCancel: data => {
+                console.log(data);
+            },
+            onPickerSelect: data => {
+                console.log(data);
+            }
+        });
+        Picker.show();
+    }
+    _renderSettingItem(){
+        let radio_props = [
+            {label: '科目三', value: 0 },
+            {label: '科目四', value: 1 }
+        ];
+        return(
+            <View style={{paddingTop:5,paddingLeft:5,paddingRight:5}}>
+                <TouchableHighlight underlayColor='#f2f2f2' style={{ backgroundColor:'#D6D6D6',borderWidth:1,borderColor:'#333'}}>
+                    <View style={{flex:1,flexDirection:'row'}}>
+                        <View style={{margin:10,flex:1}}>
+                            <View style={{alignItems:'center',flexDirection:'row',justifyContent:'space-between'}}>
+                                <View style={{flexDirection:'row'}}>
+                                    <Text style={{fontSize:16}}>时    间</Text>
+                                    <Text style={{fontWeight:'bold'}}> : </Text>
+                                    <Text style={{textAlign:'left',color:'#D33A31',fontSize:16}}>
+                                        15:20~15:45
+                                    </Text>
+                                </View>
+                                <View>
+                                    <Switch backgroundInactive="#666666" circleColorInactive="#ffffff" circleColorActive="#ffffff" backgroundActive="#D33A31" height={18} width={35}></Switch>
+                                </View>
+                            </View>
+                            <View style={{alignItems:'center',flex:1,flexDirection:'row',marginTop:5}}>
+                                <Text style={{fontSize:16}}>科    目</Text>
+                                <Text style={{fontWeight:'bold'}}> : </Text>
+                                <View style={{justifyContent:'center'}}>
+                                    <RadioForm
+                                        ref="radioForm"
+                                        radio_props={radio_props}
+                                        initial={0}
+                                        formHorizontal={true}
+                                        labelHorizontal={true}
+                                        buttonColor={'#D33A31'}
+                                        buttonSize={10}
+                                        buttonOuterSize={18}
+                                        borderWidth={1}
+                                        style={{marginTop:6}}
+                                        labelWrapStyle={{marginLeft:0}}
+                                        labelColor={'#000'}
+                                        animation={true}
+                                        onPress={(value, index) => {
 
+                                      }}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{flex:1,marginTop:3,flexDirection:'row'}}>
+                                <Text style={{fontSize:16}}>可预约</Text>
+                                <Text style={{fontWeight:'bold'}}> : </Text>
+                                <TouchableHighlight underlayColor={'#d6d6d6'} onPress={()=>{this.selectPeople()}} style={{flex:1,backgroundColor:'#ccc'}}>
+                                <View style={{flex:1,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                                    <Text style={{textAlign:'left',fontSize:16}}>
+                                         1人
+                                    </Text>
+                                    <Image resizeMode={Image.resizeMode.contain} style={{marginRight:3,height:20,width:30}} source={require('./../../../res/images/peoplemore.png')}></Image>
+                                </View>
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+                    </View>
+                </TouchableHighlight>
+            </View>
+        )
+    }
+    render(){
         return(
         <View style={{flex:1,backgroundColor:'#fff'}}>
             <View style={{height:50,backgroundColor:'#dedede',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
@@ -246,10 +360,20 @@ export default class SetTimeOrderPage extends Component {
                     <Image style={{marginLeft:10,marginRight:10,width:30,height:30}} source={require('./../../../res/images/date.png')}></Image>
                 </TouchableOpacity>
             </View>
-            <View>
-                <Switch style={{width:50}} onValueChange={(value) => this.setState({trueSwitchIsOn: false})} disabled={false}
-                        value={this.state.trueSwitchIsOn}></Switch>
-            </View>
+            <ScrollView>
+                <FlatList
+                    data={['a', 'b','a', 'b','a', 'b','a', 'b','a', 'b','a', 'b']}
+                    showsVerticalScrollIndicator={false}
+                    renderItem={({item}) => this._renderSettingItem(item)}
+                />
+                <TouchableHighlight underlayColor={'#d6d6d6'} onPress={()=>{}} style={{margin:10,backgroundColor:'#999999'}}>
+                    <View style={{flex:1,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <Text  style={{fontSize:18,margin:10}}>
+                            确认
+                        </Text>
+                    </View>
+                </TouchableHighlight>
+            </ScrollView>
             {this.state.showCalendar&&this.renderCalendar()}
         </View>
         )

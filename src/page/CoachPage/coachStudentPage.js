@@ -7,6 +7,7 @@ import React, {
 import {
     Text,
     View,
+    Image,
     TouchableHighlight,
     StyleSheet,
     TouchableOpacity,
@@ -22,36 +23,63 @@ class Studying extends Component{
             dataSource: ds.cloneWithRows(['row 1', 'row 2']),
         };
     }
+    _renderRow(data){
+        return(
+            <TouchableHighlight
+                onPress={ _ => console.log('You touched me') }
+                style={styles.rowFront}
+                underlayColor={'#AAA'}
+                >
+                <View style={{flexDirection:'row',justifyContent:'center'}}>
+                    <Image source={require('../../../res/images/icon_car.png')} style={{marginLeft:10,width:60,height:60}} resizeMode="cover"/>
+                    <View style={{justifyContent:'space-around',marginLeft:10,flex:1}}>
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={{fontSize:16}}>姓    名</Text>
+                            <Text style={{fontWeight:'bold'}}> : </Text>
+                            <Text style={{textAlign:'left',color:'#D33A31',fontSize:16}}>
+                                高大人
+                            </Text>
+                        </View>
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={{fontSize:16}}>电    话</Text>
+                            <Text style={{fontWeight:'bold'}}> : </Text>
+                            <Text style={{textAlign:'left',fontSize:16}}>
+                                18239403949
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+            </TouchableHighlight>
+        )
+    }
+    _renderHiddenRow(data, secId, rowId, rowMap){
+        return(
+            <View style={styles.rowBack}>
+                <View style={{flexDirection:'row',flex:1,width:150}}>
+                    <TouchableOpacity style={[styles.backRightBtn,{backgroundColor:'#D33A31'}]} onPress={()=>{} }>
+                            <Text style={styles.backTextWhite}>毕业</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.backRightBtn,{backgroundColor:'#FE9D00'}]} onPress={()=>{} }>
+                        <Text style={styles.backTextWhite}>拒绝</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.backRightBtn,{backgroundColor:'#C6C7CC'}]} onPress={()=>{} }>
+                        <Text style={styles.backTextWhite}>拉黑</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
     render() {
         return (
             <SwipeListView
                 dataSource={this.state.dataSource}
-                renderRow={ data => (
-                    <TouchableHighlight
-                        onPress={ _ => console.log('You touched me') }
-                        style={styles.rowFront}
-                        underlayColor={'#AAA'}
-                    >
-                        <View>
-                            <Text>I am {data} in a SwipeListView</Text>
-                        </View>
-                    </TouchableHighlight>
-                )}
+                renderRow={ data => (this._renderRow(data))}
                 renderHiddenRow={ (data, secId, rowId, rowMap) => (
-                    <View style={styles.rowBack}>
-                        <View style={[styles.backRightBtn, styles.backRightBtnLeft]}>
-                            <Text style={styles.backTextWhite}>Right</Text>
-                        </View>
-                        <View style={[styles.backRightBtn, styles.backRightBtnCenter]}>
-                            <Text style={styles.backTextWhite}>Right</Text>
-                        </View>
-                        <TouchableOpacity style={[styles.backRightBtn, styles.backRightBtnRight]} onPress={()=>{} }>
-                            <Text style={styles.backTextWhite}>Delete</Text>
-                        </TouchableOpacity>
-                    </View>
+                    this._renderHiddenRow(data, secId, rowId, rowMap)
                 )}
+                stopLeftSwipe ={1}
                 leftOpenValue={0}
-                rightOpenValue={-225}
+                rightOpenValue={-150}
             />
         )
     }
@@ -61,44 +89,36 @@ const styles = StyleSheet.create({
         color: '#FFF'
     },
     rowFront: {
-        alignItems: 'center',
         backgroundColor: '#CCC',
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         justifyContent: 'center',
-        height: 50,
+        height: 80,
     },
     rowBack: {
-        alignItems: 'center',
+        alignItems: 'flex-end',
         backgroundColor: '#DDD',
         flex: 1,
-        flexDirection: 'row',
         justifyContent: 'space-between',
         paddingLeft: 0,
     },
     backRightBtn: {
         alignItems: 'center',
-        bottom: 0,
         justifyContent: 'center',
-        position: 'absolute',
-        top: 0,
-        width: 75
-    },
-    backRightBtnLeft: {
-        backgroundColor: 'blue',
-        right: 150
-    },
-    backRightBtnCenter: {
-        backgroundColor: 'yellow',
-        right: 75
-    },
-    backRightBtnRight: {
-        backgroundColor: 'red',
-        right: 0
+        width: 75,
+        flex:1
     },
 });
 
 export const Student = TabNavigator({
+    //待审核
+    examine:{
+        screen:Studying,
+        navigationOptions:{
+            tabBarLabel: '待审核',
+        }
+
+    },
     //学习中
     studying:{
         screen:Studying,
@@ -114,13 +134,7 @@ export const Student = TabNavigator({
             tabBarLabel: '已毕业',
         }
     },
-    //小黑屋
-    studyfool:{
-        screen:Studying,
-        navigationOptions:{
-            tabBarLabel: '小黑屋',
-        }
-    },
+
     //已拒绝
     studybad:{
         screen:Studying,
@@ -129,22 +143,34 @@ export const Student = TabNavigator({
         }
     }
 },{
+    swipeEnabled:false,
+    lazy: true,
+    backBehavior:'none',
+    animationEnabled: false,
     tabBarOptions:{
-        activeBackgroundColor:'#ff0000',
-        inactiveBackgroundColor:'#D6D6D6',
-        labelStyle: {
-            fontSize: 14,
-            color:'#333333'
-        },
-        tabStyle: {
-            height: 45,
-            backgroundColor: '#D6D6D6',
+        inactiveTintColor:'#767676',
+        activeTintColor:'#D33A31',
+        borderless:false,
+        style: {
+            height:40,
+            backgroundColor: '#dedede',
             justifyContent:'center',
             alignContent:'center',
         },
-        style: {
-            backgroundColor: '#D6D6D6',
+        labelStyle: {
+            fontSize: 14,
         },
-    },
-    swipeEnabled:false,
+        pressColor:'#7D7D7D88',
+        tabStyle:{
+            height:40,
+            justifyContent:'center',
+            alignContent:'center',
+            alignItems:'center'
+        },
+        indicatorStyle:{
+            backgroundColor: '#D33A31',
+            alignContent:'center',
+            justifyContent:'center'
+        },
+    }
 })

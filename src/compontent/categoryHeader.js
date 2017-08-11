@@ -35,16 +35,21 @@ export default class CategoryHeader extends Component {
             </TouchableHighlight>
         )
     }
+    _renderRight(){
+        return(
+            <TouchableHighlight underlayColor='#fff' onPress={() => {  this.props.nav.navigate(this.props.rightPress)} } style={headerStyles.rightBox}>
+                <Image source={this.props.rightImage} style={{width:30,height:30}} />
+            </TouchableHighlight>
+        )
+    }
     render() {
         return (
             <View style={headerStyles.container}>
                 {this.props.type==='home'?this._openDrawer():this._backUp()}
-                <View style={{ flex: 1,marginRight:50}}>
+                <View style={{ flex: 1}}>
                     <Text allowFontScaling={false} numberOfLines={1} style={headerStyles.text}>{this.props.title}</Text>
                 </View>
-           {/*     <TouchableHighlight underlayColor='#fff' onPress={() => { fds } } style={headerStyles.categoryBox}>
-                    <Image source={require('../../res/images/back.png')} style={headerStyles.back} />
-                </TouchableHighlight>*/}
+                {this.props.right?this._renderRight():<View style={{width:50}}></View>}
             </View>
         );
     }
@@ -73,6 +78,11 @@ const headerStyles = StyleSheet.create({
         fontWeight: 'bold',
     },
     categoryBox:{
+        width:50,
+        height:50,
+        justifyContent:'center',
+        paddingLeft:13},
+    rightBox:{
         width:50,
         height:50,
         justifyContent:'center',

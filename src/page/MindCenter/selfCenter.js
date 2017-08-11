@@ -26,7 +26,7 @@ export default class SelfCenter extends Component {
                         <Text onPress={()=>{this.props.navigation.navigate('login')}} style={{textAlignVertical:'center',marginTop:5,fontSize:18}}>登录/注册</Text>
                     </View>
                 </Image>
-                <TouchableHighlight  underlayColor='#f2f2f2' style={{marginTop:1,backgroundColor:'#d6d6d6'}} onPress={()=>{ }}  >
+                <TouchableHighlight  underlayColor='#f2f2f2' style={{marginTop:1,backgroundColor:'#d6d6d6'}} onPress={()=>{this.props.navigation.navigate('student_all',{type:0}) }}  >
                     <View style={{width:'100%',height:40,flexDirection:'row',justifyContent:'space-between'}}>
                         <View style={{height:40,flexDirection:'row',alignItems:'center'}}>
                             <Image style={{marginLeft:15,width:20,height:20}} source={require('../../../res/images/iconmyyuyue.png')}></Image>
@@ -40,21 +40,21 @@ export default class SelfCenter extends Component {
                 </TouchableHighlight>
                 <View style={{backgroundColor:'#999',height:1,width:'100%'}}></View>
                 <View style={{width:'100%',height:80,flexDirection:'row',alignItems:'center',justifyContent:'space-around'}}>
-                    <TouchableHighlight  underlayColor='#f2f2f2' style={{height:80,width:'33%',justifyContent:'center',backgroundColor:'#d6d6d6'}} onPress={()=>{ }}  >
+                    <TouchableHighlight  underlayColor='#f2f2f2' style={{height:80,width:'33%',justifyContent:'center',backgroundColor:'#d6d6d6'}} onPress={()=>{ this.props.navigation.navigate('student_queren',{type:1})}}  >
                         <View style={{alignItems:'center'}}>
                             <Image style={{width:25,height:25}} source={require('../../../res/images/icon_queren.png')}></Image>
                             <Text style={{marginTop:8,fontSize:14}}>待确认</Text>
                         </View>
                     </TouchableHighlight>
                     <View style={{backgroundColor:'#cdcdcd',height:'100%',width:1}}></View>
-                    <TouchableHighlight  underlayColor='#f2f2f2' style={{height:80,width:'33%',justifyContent:'center',backgroundColor:'#d6d6d6'}} onPress={()=>{ }}  >
+                    <TouchableHighlight  underlayColor='#f2f2f2' style={{height:80,width:'33%',justifyContent:'center',backgroundColor:'#d6d6d6'}} onPress={()=>{this.props.navigation.navigate('student_lianche',{type:2}) }}  >
                         <View style={{alignItems:'center'}}>
                             <Image style={{width:25,height:25}} source={require('../../../res/images/icon_car.png')}></Image>
                             <Text style={{marginTop:8,fontSize:14}}>待练车</Text>
                         </View>
                     </TouchableHighlight>
                     <View style={{backgroundColor:'#cdcdcd',height:'100%',width:1}}></View>
-                    <TouchableHighlight  underlayColor='#f2f2f2' style={{height:80,width:'33%',justifyContent:'center',backgroundColor:'#d6d6d6'}} onPress={()=>{ }}  >
+                    <TouchableHighlight  underlayColor='#f2f2f2' style={{height:80,width:'33%',justifyContent:'center',backgroundColor:'#d6d6d6'}} onPress={()=>{ this.props.navigation.navigate('student_wancheng',{type:3})}}  >
                         <View style={{alignItems:'center'}}>
                             <Image style={{width:25,height:25}} source={require('../../../res/images/icon_ok.png')}></Image>
                             <Text style={{marginTop:8,fontSize:14}}>已完成</Text>
