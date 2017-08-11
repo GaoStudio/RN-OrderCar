@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {
-    View, Keyboard,Text, Image, StyleSheet, Animated, Alert
+    View, Keyboard,Text, Image, StyleSheet, Animated, Alert,TouchableOpacity
 } from 'react-native';
 import Input from './../../compontent/Input.js'
 import AlertStatus from './../../compontent/AlertStatus.js'
@@ -106,7 +106,9 @@ export default class RegisterPage extends Component {
             delay: 130
         }).start();
     }
-
+    getCode(){
+        alert("获取验证码")
+    }
     render() {
         return <View style={{flex:1}}>
             <View style={loginStyle.loginContainer}>
@@ -133,7 +135,11 @@ export default class RegisterPage extends Component {
                                    marginTop={10}
                                    onChange={this.handleChangeInput.bind(this, 'email')}
                             />
-                            <Text style={{fontSize:18,right:25,bottom:8,position:'absolute',color:'#999999'}}>获   取</Text>
+                            <TouchableOpacity onPress={()=>this.getCode()} style={{width:100,height:"100%",right:25,position:'absolute',color:'#999999'}}>
+                               <View style={{flex:1,marginBottom:10,justifyContent:"flex-end",alignItems:"center"}}>
+                                <Text style={{fontSize:18,color:'#999999'}}>获   取</Text>
+                               </View>
+                            </TouchableOpacity>
                         </View>
                         <Input label="密    码"
                                icon={<Image source={require('../../../res/images/password.png')} style={{width:30,height:30}} resizeMode="cover"/>}
