@@ -1,7 +1,8 @@
 import React, {Component, PropTypes} from 'react';
-import {View, TextInput, StyleSheet, Animated} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, Animated} from 'react-native';
 import {getStyleFromProps} from './../utils';
 import TextFont from './TextFont.js'
+import Button from "./Button";
 
 // Distance label top with input container default
 const LABEL_DEFAULT_TOP = 18;
@@ -18,6 +19,7 @@ export default class Input extends Component {
     }
 
     handleFocus() {
+
         Animated.timing(this.state._labelPositionTop, {
             toValue: LABEL_DEFAULT_TOP_FOCUS,
             duration: 300,
@@ -27,9 +29,20 @@ export default class Input extends Component {
             duration: 300,
         }).start();
     }
-
-    handleBlur(){
-        if(!this.props.value){
+    handleTouchFocus() {
+        const onSelectSchool =  this.props.onSelectSchool;
+        onSelectSchool();
+        Animated.timing(this.state._labelPositionTop, {
+            toValue: LABEL_DEFAULT_TOP_FOCUS,
+            duration: 300,
+        }).start();
+        Animated.timing(this.state._labelFontSize, {
+            toValue: LABEL_FONT_SIZE_FOCUS,
+            duration: 300,
+        }).start();
+    }
+    handleBlur() {
+        if (!this.props.value) {
             Animated.timing(this.state._labelPositionTop, {
                 toValue: LABEL_DEFAULT_TOP,
                 duration: 300,
@@ -41,7 +54,7 @@ export default class Input extends Component {
         }
     }
 
-    renderLabel(){
+    renderLabel() {
         const styleLabelContainer = {
             ...styleInput.labelContainer,
             top: this.state._labelPositionTop
@@ -50,16 +63,17 @@ export default class Input extends Component {
             ...styleInput.label,
             fontSize: this.state._labelFontSize
         }
-        return  <Animated.View style={styleLabelContainer}>
-                <TextFont>
-                    <Animated.Text style={styleLabel}>
-                        {this.props.label}
-                    </Animated.Text>
-                </TextFont>
+        return <Animated.View style={styleLabelContainer}>
+            <TextFont>
+                <Animated.Text style={styleLabel}>
+                    {this.props.label}
+                </Animated.Text>
+            </TextFont>
         </Animated.View>
     }
 
-    renderInputText(){
+
+    renderInputText() {
         return <TextInput
             value={this.props.value}
             style={styleInput.input}
@@ -71,14 +85,29 @@ export default class Input extends Component {
         />
     }
 
-    renderLabelInputCombine(){
+    renderText() {
+        let content = this.props.value;
+        if (content=='-1') {
+            content="";
+            this.handleBlur()
+        }
+        return (
+            <TouchableOpacity onPress={()=>{this.handleTouchFocus()}}>
+                <View style={{height:34,justifyContent:'center',
+                    color: '#333333',fontSize: 14}}>
+                    <Text>{content}</Text>
+                </View>
+            </TouchableOpacity>
+        )
+    }
+    renderLabelInputCombine() {
         const styleInputContainer = [
             styleInput.inputContainer,
             getStyleFromProps(['marginTop'], this.props)
         ];
         return <View style={styleInputContainer}>
             {this.renderLabel()}
-            {this.renderInputText()}
+            {this.props.inputable ? this.renderText() : this.renderInputText()}
             {this.renderLineWhite()}
         </View>
     }
@@ -87,9 +116,11 @@ export default class Input extends Component {
         return <View style={styleInput.lineWhite}></View>
     }
 
-    renderInputWithIcon(){
-        return <View style={{flexDirection: 'row',  marginLeft:20,
-            marginRight:20, alignItems: 'flex-end'}}>
+    renderInputWithIcon() {
+        return <View style={{
+            flexDirection: 'row', marginLeft: 20,
+            marginRight: 20, alignItems: 'flex-end'
+        }}>
             <View style={{width: 40}}>
                 {React.cloneElement(this.props.icon, {
                     color: '#ffffff',
@@ -104,7 +135,7 @@ export default class Input extends Component {
 
 
     render() {
-        if(this.props.icon) return this.renderInputWithIcon();
+        if (this.props.icon) return this.renderInputWithIcon();
         return this.renderLabelInputCombine();
 
     }
@@ -113,6 +144,7 @@ export default class Input extends Component {
 Input.propTypes = {
     value: PropTypes.string,
     onChange: PropTypes.func,
+    onSelectSchool: PropTypes.func,
     secureTextEntry: PropTypes.bool
 }
 
@@ -131,11 +163,12 @@ const styleInput = {
         fontSize: 14,
         letterSpacing: 0.9
     },
-    lineWhite:{
+    lineWhite: {
         height: 2,
         backgroundColor: '#999999',
         opacity: .51
     },
+
     input: {
         height: 34,
         color: '#333333',
@@ -151,6 +184,7 @@ const styleInput = {
 Input.propTypes = {
     label: PropTypes.string,
     value: PropTypes.string,
-    onChange: PropTypes.func,
+    onSelectSchool: PropTypes.func,
+    onClick: PropTypes.func,
     marginTop: PropTypes.number
 }
