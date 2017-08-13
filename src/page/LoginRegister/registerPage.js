@@ -101,9 +101,17 @@ export default class RegisterPage extends Component {
             delay: 130
         }).start();
     }
-
+    //获取验证码
     getCode() {
-        alert("获取验证码")
+        ApiGenerator.getInstance().FetchRespsitory().fetchGetData("/api/school/all")
+            .then((wrapData) => {
+                if (wrapData.status == 1) {
+                    this.filterSchool(wrapData.data);
+                    this.showSchool();
+                }
+            }).catch((error) => {
+            alert(error)
+        });
     }
 
     selectSchool() {
