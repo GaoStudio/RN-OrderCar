@@ -12,10 +12,34 @@ class FetchRespsitory {
             })
         })
     }
-
-    fetchNetRepository(url) {
+    fetchGetData(url) {
         return new Promise((resolve, reject) => {
-            fetch(url)
+            this.fetchNetRepository(HttpApiUrl + url,"GET").then((data) => {
+                resolve(data);
+            }).catch((error) => {
+                reject(error);
+            })
+        })
+    }
+    fetchPostData(url,data) {
+        return new Promise((resolve, reject) => {
+            this.fetchNetRepository(HttpApiUrl + url,"POST",data).then((data) => {
+                resolve(data);
+            }).catch((error) => {
+                reject(error);
+            })
+        })
+    }
+    fetchNetRepository(url,method,data) {
+        return new Promise((resolve, reject) => {
+            fetch(url,{
+                method: method,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: data?JSON.stringify(data):null
+            })
                 .then((response) => response.json())
                 .catch((error) => {
                     reject(error);
