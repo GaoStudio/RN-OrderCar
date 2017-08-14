@@ -103,7 +103,7 @@ export default class RegisterPage extends Component {
     }
     //获取验证码
     getCode() {
-        ApiGenerator.getInstance().FetchRespsitory().fetchGetData("/api/school/all")
+        ApiGenerator.getInstance().FetchRespsitory().fetchPostData("/api/user/getCode",data)
             .then((wrapData) => {
                 if (wrapData.status == 1) {
                     this.filterSchool(wrapData.data);
