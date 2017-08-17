@@ -105,7 +105,9 @@ export default class RegisterPage extends Component {
     //获取验证码
     getCode() {
         setTimeout(()=>{
-
+            this.setState({
+                time: this.state.time-1
+            })
         },1000)
         ApiGenerator.getInstance().FetchRespsitory().fetchPostData("/api/user/code",data)
             .then((wrapData) => {
