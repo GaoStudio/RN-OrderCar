@@ -16,6 +16,7 @@ export default class RegisterPage extends Component {
             email: '',
             school: '-1',
             password: '',
+            time:60,
             iconDistance: new Animated.Value(60),
             top: new Animated.Value(25),
             animation: {
@@ -103,7 +104,10 @@ export default class RegisterPage extends Component {
     }
     //获取验证码
     getCode() {
-        ApiGenerator.getInstance().FetchRespsitory().fetchPostData("/api/user/getCode",data)
+        setTimeout(()=>{
+
+        },1000)
+        ApiGenerator.getInstance().FetchRespsitory().fetchPostData("/api/user/code",data)
             .then((wrapData) => {
                 if (wrapData.status == 1) {
                     this.filterSchool(wrapData.data);
