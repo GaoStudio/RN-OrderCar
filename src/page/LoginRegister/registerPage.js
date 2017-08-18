@@ -16,7 +16,7 @@ export default class RegisterPage extends Component {
             email: '',
             school: '-1',
             password: '',
-            time:60,
+            time:0,
             iconDistance: new Animated.Value(60),
             top: new Animated.Value(25),
             animation: {
@@ -104,22 +104,31 @@ export default class RegisterPage extends Component {
     }
     //获取验证码
     getCode() {
-        setTimeout(()=>{
-            this.setState({
-                time: this.state.time-1
-            })
-        },1000)
-        ApiGenerator.getInstance().FetchRespsitory().fetchPostData("/api/user/code",data)
+        if(this.state.time>0){
+            return;
+        }
+        this.setState({time:60});
+        this.CountDown();
+        ApiGenerator.getInstance().FetchRespsitory().fetchPostData("/api/user/code","18736004326")
             .then((wrapData) => {
                 if (wrapData.status == 1) {
                     this.filterSchool(wrapData.data);
                     this.showSchool();
                 }
             }).catch((error) => {
-            alert(error)
+                alert(error)
         });
     }
-
+    CountDown(){
+       this.interval =  setInterval(()=>{
+            if(this.state.time<=0){
+                this.interval&&clearInterval(this.interval);
+            }
+            this.setState({
+                time: this.state.time-1
+            })
+        },1000)
+    }
     selectSchool() {
         if (this.shcooldata.length != 0) {
             this.showSchool();
@@ -206,7 +215,6 @@ export default class RegisterPage extends Component {
                                 height: "100%",
                                 right: 5,
                                 position: 'absolute',
-                                color: '#999999'
                             }}>
                                 <View style={{
                                     flex: 1,
@@ -214,7 +222,7 @@ export default class RegisterPage extends Component {
                                     justifyContent: "flex-end",
                                     alignItems: "center"
                                 }}>
-                                    <Text style={{fontSize: 18, color: '#999999'}}>获 取</Text>
+                                    {this.state.time>0?<Text style={{fontSize: 18, color: '#999999'}}>{this.state.time}S</Text>:<Text style={{fontSize: 18, color: '#999999'}}>获 取</Text>}
                                 </View>
                             </TouchableOpacity>
                         </View>
